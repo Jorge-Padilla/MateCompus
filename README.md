@@ -111,11 +111,17 @@ Estos atributos son fáciles de definir, ya tenemos la clase FNCh que será la g
 Para comenzar con el algoritmo requerimos de una matriz en la que vamos a trabajar, en esta se almacenarán los datos resultantes a las iteraciones realizadas. Esta matriz contendrá en cada celda una lista de Símbolos, debido a que puede haber diversos símbolos generadores que nos den dichas producciones.
 
 1	2	3	4	5	
+
 					1
+					
 					2
+					
 					3
+					
 					4
+					
 					5
+					
 
 Con esta tabla trabajaremos el algoritmo CYK, el primer paso consiste en obtener en la diagonal los generadores de los símbolos terminales de la palabra.
 
