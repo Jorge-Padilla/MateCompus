@@ -1,14 +1,18 @@
 # MateCompus
 
-Analizador sintáctico con CYK
+## Link del Video
+
+https://youtu.be/VRKo2SFkE1M
+
+## Analizador sintáctico con CYK
 
 Jorge Alberto Padilla Gutiérrez A01635346
 
-I.	Introducción
+### I.	Introducción
 
 Para la entrega de este proyecto parcial, se desarrolla el analizador sintáctico mediante el algoritmo CYK, el cual requiere de unos cuantos pasos previos a su desarrollo siendo la normalización de la gramática de entrada en la forma normal de Chomsky, y claramente indicar como se recibirá dicha gramática en un archivo de texto para poder introducirlo en el programa y poder trabajar con él.
 
-II.	Formato de la gramática
+### II.	Formato de la gramática
 
 Para la entrega la gramática al programa, requerimos definir el formato que esta debe tener para que sea válido, el formato será simple:
 
@@ -16,7 +20,7 @@ S->a|B|&
 
 Así serán todas las líneas del documento, las cuales indican cada símbolo generador que tendrá la gramática, seguido de -> que representa nuestra flecha, a partir de ahí están todos los caracteres resultantes de la producción, considerando el pipe | como un or, que indica que es otra producción del mismo símbolo generador, y tenemos el carácter & que será nuestra épsilon. Por lo tanto, si queremos de múltiples símbolos generadores tendremos diversas líneas.
 
-III.	Almacenamiento de la gramática
+### III.	Almacenamiento de la gramática
 
 Para poder guardar nuestra gramática requerimos de una clase que tenga la lista de símbolos que estamos guardando, estos símbolos serán por si solos una clase, que llamaremos FNCh, la cual debe tener:
 
@@ -34,7 +38,7 @@ A->abCD|EfGhI|&
 
 Lo primero a notar es que tenemos realmente 1 o más producciones por símbolo generador, por lo que lo primero que requerimos es de un arreglo que nos guarde cada producción. Ahora bien, cada producción no es mas que un arreglo de Símbolos, por lo que ahora lo tenemos definido, que las producciones son arreglos de arreglos de símbolos.
 
-IV.	Rectificación de símbolos generadores
+### IV.	Rectificación de símbolos generadores
 
 El programa leerá línea por línea del archivo y generará un símbolo generador con la primera letra, para después guardar su siguiente contenido como sus producciones, solo que todo esto requiere de cuidado, ya que podemos tener que el símbolo generador ya haya sido anotado anteriormente.
 
@@ -44,7 +48,7 @@ Al llegar a esta decisión podemos también encontrar al generador después de y
 
 Este procedimiento se hace para que cada símbolo sea exactamente el que decimos, y si nos referimos a un generador en la producción podamos acceder a sus producciones.
 
-V.	Tratamiento de la Gramática
+### V.	Tratamiento de la Gramática
 
 Nuestra gramática es leída y almacenada, considerando todos los símbolos generadores como ellos mismos dentro de las producciones para que podamos acceder a sus producciones desde cualquier instante que accedamos al símbolo.
 
@@ -60,7 +64,7 @@ Para las épsilon producciones iteraremos nuevamente en cada producción y compa
 
 Finalmente, se eliminan las producciones que después de estos procedimientos no tengan ahora uso, es decir, sean inútiles, esto se hace simplemente iterando en cada símbolo generador por cada símbolo de cada producción, y si no se encuentra nunca este símbolo quiere decir que es inútil, y por ende lo podemos eliminar.
 
-VI.	Forma Normal de Chomsky
+### VI.	Forma Normal de Chomsky
 
 Con estos procedimientos podemos ahora proceder a convertir la gramática en la forma normal de Chomsky, lo cual requiere de 2 pasos:
 
@@ -80,7 +84,7 @@ Se llamarán Tx todos los símbolos generadores que generen un terminal, y G# to
 
 on esto ahora tenemos una gramática en la forma normal de Chomsky lista para utilizarla en el algoritmo CYK, para el cual requerimos de una palabra.
 
-VII.	La Clase CYK
+### VII.	La Clase CYK
 
 Para la elaboración del algoritmo CYK requerimos nuevamente una clase, esta deberá tener los siguientes atributos:
 
@@ -92,7 +96,7 @@ Para la elaboración del algoritmo CYK requerimos nuevamente una clase, esta deb
 
 Estos atributos son fáciles de definir, ya tenemos la clase FNCh que será la gramática, la palabra será un arreglo de caracteres para poder acceder a ellos con mayor facilidad, y el resultado es un booleano que se definirá al terminar de realizar el algoritmo CYK en la palabra.
 
-VIII.	El algoritmo CYK
+### VIII.	El algoritmo CYK
 
 Para comenzar con el algoritmo requerimos de una matriz en la que vamos a trabajar, en esta se almacenarán los datos resultantes a las iteraciones realizadas. Esta matriz contendrá en cada celda una lista de Símbolos, debido a que puede haber diversos símbolos generadores que nos den dichas producciones.
 
@@ -115,7 +119,7 @@ Con esto tenemos también iteración en cada producción de la gramática, y a l
 
 Al final llegamos a comparar la celda 1 n, si está el símbolo generador inicial en la lista de esta celda, la palabra es aceptada por esta gramática, si no está, la palabra no es aceptada.
 
-IX.	El árbol de derivación
+### IX.	El árbol de derivación
 
 El ultimo requerimiento para este proyecto es el mostrar el árbol de derivación de la palabra si esta es válida, por lo que se requiere una implementación del mismo que, originalmente se soluciona con back tracking, pero si desde el principio del algoritmo se realiza una pequeña modificación, podemos obtener este árbol desde el principio, esta modificación, o más bien, adición, es tener otra matriz donde en lugar de guardar la lista de símbolos generadores, guardaremos una clase Tree, la cual tiene
 
@@ -129,7 +133,7 @@ El símbolo generador actual es básicamente el símbolo que guardaremos en la o
 
 Así, la matriz no solo guarda l símbolo que genera esa sub-palabra, sino también que producción se utilizó, con esto podemos obtener el árbol de derivación.
 
-X.	El final del algoritmo
+### X.	El final del algoritmo
 
 Al final, el algoritmo comprueba, como se mencionó al final del capítulo VIII, si la palabra es aceptada por la gramática o no, esto lo hace buscando en 1 n si está el símbolo generador, si no se encuentra, imprime que no es aceptada la palabra, pero si sí esta, imprime el árbol de derivación, accediendo a ese mismo índice del arreglo en i n, pero de la matriz de los árboles.
 
