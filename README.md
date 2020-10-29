@@ -4,6 +4,8 @@
 
 https://youtu.be/VRKo2SFkE1M
 
+## Para visualizar los diagramas, descarga el archivo .docx el cual es el sdd del proyecto
+
 ## Analizador sintáctico con CYK
 
 Jorge Alberto Padilla Gutiérrez A01635346
