@@ -43,6 +43,7 @@ Lo primero a notar es que tenemos realmente 1 o más producciones por símbolo g
 El programa leerá línea por línea del archivo y generará un símbolo generador con la primera letra, para después guardar su siguiente contenido como sus producciones, solo que todo esto requiere de cuidado, ya que podemos tener que el símbolo generador ya haya sido anotado anteriormente.
 
 ![alt text](https://github.com/Jorge-Padilla/MateCompus/blob/main/imgs/Picture1.png)
+
 Lo que se hace es básicamente iterar por cada símbolo que se tiene registro, en todas las producciones anteriores, si se encuentra nuestro nuevo símbolo generador quiere decir que ya antes se había definido como un generador y, por ende, indicaremos que ese generador que teníamos es efectivamente el nuevo que estamos creando.
 
 Al llegar a esta decisión podemos también encontrar al generador después de ya haber sido definido, en ese caso simplemente indicamos que es ese generador ya definido.
@@ -56,11 +57,13 @@ Nuestra gramática es leída y almacenada, considerando todos los símbolos gene
 El siguiente paso es transformar nuestra gramática a la forma normal de Chomsky para que podamos realizar el algoritmo CYK. Pero previo a esto debemos hacer que la gramática sea apta para poder transformarla a la forma normal de Chomsky, esto requiere eliminar las épsilon transiciones, las unitarias y las inútiles.
 
 ![alt text](https://github.com/Jorge-Padilla/MateCompus/blob/main/imgs/Picture2.png)
+
 Para las transiciones unitarias, requerimos iterar en cada producción de nuestra gramática y comprobar 2 cosas: que la longitud de la producción sea 1, y que el símbolo que este tiene sea un símbolo generador.
 
 Si ambas cosas se cumplen, quiere decir que tenemos una transición unitaria, la cual para sustituir requerimos insertar todas sus producciones en el generador donde la encontramos y, después, eliminar esa producción unitaria.
 
 ![alt text](https://github.com/Jorge-Padilla/MateCompus/blob/main/imgs/Picture3.png)
+
 Una vez que hicimos este procedimiento nos será más fácil hacer el siguiente, que consiste en eliminar las épsilon transiciones de la gramática.
 
 Para las épsilon producciones iteraremos nuevamente en cada producción y compararemos su tamaño a 1, ahora si esta es épsilon, quiere decir que este generador tiene una épsilon transición, por lo que hay que iterar nuevamente en cada producción hasta encontrarlo y agregar ahora las producciones sin el generador de la épsilon transición. También si no hay otra producción en ese generador se elimina la producción que lo contiene.
@@ -76,6 +79,7 @@ Con estos procedimientos podemos ahora proceder a convertir la gramática en la 
 •	Por cada cadena de generadores mas larga de 2 símbolos, se crea un nuevo generador que genere todos menos el primer símbolo, y los reemplaza en la producción dejándola con longitud de 2
 
 ![alt text](https://github.com/Jorge-Padilla/MateCompus/blob/main/imgs/Picture4.png)
+
 Para el primer punto se debe iterar en cada generador, recordando la cantidad actual, ya que se generarán mas que no debemos considerar, en estos por cada producción si se encuentra un símbolo terminal en cadenas de más de dos símbolos, debemos buscar en la lista de nuevos símbolos generadores si ya hay uno que genere este terminal.
 
 Si se encuentra uno, se reemplaza, si no quiere decir que debemos crear uno, entonces se añade este generador nuevo a la lista y se reemplaza el terminal por este nuevo generador.
@@ -83,6 +87,7 @@ Si se encuentra uno, se reemplaza, si no quiere decir que debemos crear uno, ent
 Con esto al final tendremos ya terminales solos o cadenas de 2 o mas generadores, por lo que ahora debemos proceder a reducir estas cadenas a solamente dos símbolos generadores.
 
 ![alt text](https://github.com/Jorge-Padilla/MateCompus/blob/main/imgs/Picture5.png)
+
 Ahora debemos iterar nuevamente en cada producción, si una es mayor a 2 símbolos debemos reemplazar todos menos el primer símbolo por un nuevo generador que produzca todos estos generadores. Este proceso incluye a los nuevos que se generen para poder también estos reducirlos si se requiere.
 
 Se llamarán Tx todos los símbolos generadores que generen un terminal, y G# todos los extras que hayan reducido un tamaño mayor a 2.
@@ -115,11 +120,13 @@ Para comenzar con el algoritmo requerimos de una matriz en la que vamos a trabaj
 Con esta tabla trabajaremos el algoritmo CYK, el primer paso consiste en obtener en la diagonal los generadores de los símbolos terminales de la palabra.
 
 ![alt text](https://github.com/Jorge-Padilla/MateCompus/blob/main/imgs/Picture6.png)
+
 Este paso es sencillo, por cada letra de la palabra se evalúa cada símbolo generador, si este generador produce la letra, se añade a la lista de su respectiva celda, donde la celda respectiva es la celda i i siendo i el índice de la letra en la palabra, es por esto que se maneja como cadena de caracteres en lugar de un String.
 
 Ahora procedemos a la parte de programación dinámica, para la cual el algoritmo CYK se basará. Por lo que procederemos a explicar su procedimiento.
 
 ![alt text](https://github.com/Jorge-Padilla/MateCompus/blob/main/imgs/Picture7.png)
+
 Primero requerimos definir las longitudes que evaluaremos, van desde 2 hasta n, en cada longitud iteramos para i desde el principio hasta la longitud teniendo j como el tope, en este itera k que va desde i hasta j.
 
 Con esto tenemos también iteración en cada producción de la gramática, y a la par iteramos en la lista de las celdas generadas por nuestras i j y k, donde i k es la celda a evaluar con el primer símbolo de la producción y k+1 j con el segundo. Si el actual generador de la lista de i k es igual al primer generador de la producción actual, y el actual generador de la lista de k+1 j es igual al segundo generador de la producción actual quiere decir que esa producción genera esa parte de la palabra, el siguiente paso es comprobar si este ya fue agregado antes a la lista de la celda i j, si no lo fue la agregamos.
