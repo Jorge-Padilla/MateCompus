@@ -6,7 +6,7 @@ https://youtu.be/VRKo2SFkE1M
 
 ## Analizador sintáctico con CYK
 
-Jorge Alberto Padilla Gutiérrez A01635346
+### Jorge Alberto Padilla Gutiérrez A01635346
 
 ### I.	Introducción
 
